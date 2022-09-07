@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApplicationAnalisys", "TestApplicationAnalisys.csproj", "{BA62EAB0-8368-4CA1-A48C-A7F6CDBD33E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApplicationAnalisys", "TestApplicationAnalisys\TestApplicationAnalisys.csproj", "{BA62EAB0-8368-4CA1-A48C-A7F6CDBD33E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{88BF0409-CCE7-4030-9472-0183F3F9D30F}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\blank.yml = ..\.github\workflows\blank.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{BA62EAB0-8368-4CA1-A48C-A7F6CDBD33E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA62EAB0-8368-4CA1-A48C-A7F6CDBD33E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA62EAB0-8368-4CA1-A48C-A7F6CDBD33E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

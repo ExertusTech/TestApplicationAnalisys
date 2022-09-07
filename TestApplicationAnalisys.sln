@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApplicationAnalisys", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{88BF0409-CCE7-4030-9472-0183F3F9D30F}"
 	ProjectSection(SolutionItems) = preProject
-		..\.github\workflows\blank.yml = ..\.github\workflows\blank.yml
+		.github\workflows\blank.yml = .github\workflows\blank.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{D91725B9-2C7D-4579-BA4F-0A8FF0F383D6}"

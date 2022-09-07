@@ -8,9 +8,9 @@ namespace Utility.Negocio
         IPostUpdateEventListener, 
         IPostCollectionUpdateEventListener
     {
-        public Task OnPostUpdateAsync(PostUpdateEvent ev, CancellationToken cancellationToken)
+        public Task OnPostUpdateAsync(PostUpdateEvent @event, CancellationToken cancellationToken)
         {
-            DispatchEvents(ev.Entity as AggregateRoot);
+            DispatchEvents(@event.Entity as AggregateRoot);
             return Task.CompletedTask;
         }
 
@@ -19,37 +19,38 @@ namespace Utility.Negocio
             DispatchEvents(ev.Entity as AggregateRoot);
         }
 
-        public Task OnPostDeleteAsync(PostDeleteEvent ev, CancellationToken cancellationToken)
+        public Task OnPostDeleteAsync(PostDeleteEvent @event, CancellationToken cancellationToken)
         {
-            DispatchEvents(ev.Entity as AggregateRoot);
+            DispatchEvents(@event.Entity as AggregateRoot);
             return Task.CompletedTask;
         }
 
-        public void OnPostDelete(PostDeleteEvent ev)
+        public void OnPostDelete(PostDeleteEvent @event)
         {
-            DispatchEvents(ev.Entity as AggregateRoot);
+            DispatchEvents(@event.Entity as AggregateRoot);
         }
 
-        public Task OnPostInsertAsync(PostInsertEvent ev, CancellationToken cancellationToken)
+        public Task OnPostInsertAsync(PostInsertEvent @event, CancellationToken cancellationToken)
         {
-            DispatchEvents(ev.Entity as AggregateRoot);
+            if (@event == null) throw new ArgumentNullException(nameof(@event));
+            DispatchEvents(@event.Entity as AggregateRoot);
             return Task.CompletedTask;
         }
 
-        public void OnPostInsert(PostInsertEvent ev)
+        public void OnPostInsert(PostInsertEvent @event)
         {
-            DispatchEvents(ev.Entity as AggregateRoot);
+            DispatchEvents(@event.Entity as AggregateRoot);
         }
 
-        public Task OnPostUpdateCollectionAsync(PostCollectionUpdateEvent ev, CancellationToken cancellationToken)
+        public Task OnPostUpdateCollectionAsync(PostCollectionUpdateEvent @event, CancellationToken cancellationToken)
         {
-            DispatchEvents(ev.AffectedOwnerOrNull as AggregateRoot);
+            DispatchEvents(@event.AffectedOwnerOrNull as AggregateRoot);
             return Task.CompletedTask;
         }
 
-        public void OnPostUpdateCollection(PostCollectionUpdateEvent ev)
+        public void OnPostUpdateCollection(PostCollectionUpdateEvent @event)
         {
-            DispatchEvents(ev.AffectedOwnerOrNull as AggregateRoot);
+            DispatchEvents(@event.AffectedOwnerOrNull as AggregateRoot);
         }
 
         private void DispatchEvents(AggregateRoot aggregateRoot)

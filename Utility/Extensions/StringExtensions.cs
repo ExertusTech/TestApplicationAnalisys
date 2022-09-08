@@ -54,9 +54,10 @@ public static class StringExtensions
     }
 
     public static string GetQueryString(this object obj) {
-        var properties = from p in obj.GetType().GetProperties()
-            where p.GetValue(obj, null) != null
-            select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
+        var properties = obj.GetType()
+            .GetProperties()
+            .Where(p => p.GetValue(obj, null) != null)
+            .Select(p => p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null)!.ToString()));
         return String.Join("&", properties.ToArray());
     }
 
@@ -173,7 +174,7 @@ public static class StringExtensions
         return result;
     }
 
-    public static string GetDescription<T>(this T enumerationValue) where T : struct
+    public static string? GetDescription<T>(this T enumerationValue) where T : struct
 
     {
         var type = enumerationValue.GetType();
@@ -184,7 +185,7 @@ public static class StringExtensions
 
         //Tries to find a DescriptionAttribute for a potential friendly name
         //for the enum
-        var memberInfo = type.GetMember(enumerationValue.ToString());
+        var memberInfo = type.GetMember(enumerationValue.ToString() ?? string.Empty);
         if (memberInfo.Length <= 0) return enumerationValue.ToString();
         var attrs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
 

@@ -28,7 +28,7 @@ public class RangeDate : ValueObject
         return result;
     }
 
-    protected override IEnumerable<object> GetEqualityComponents()
+    protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return this.DateFrom;
         yield return this.DateTo;

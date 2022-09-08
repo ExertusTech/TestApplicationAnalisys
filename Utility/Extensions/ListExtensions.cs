@@ -5,63 +5,6 @@ namespace Utility.Extensions;
 
 public static class ListExtensions
 {
-    public static int BinarySearch<T>(this List<T> list, T item, Func<T, T, int> compare)
-    {
-        return list.BinarySearch(item, new ComparisonComparer<T>(compare));
-    }
-
-    public static int BinarySearch<T>(this List<T> list, Func<T, int> compare) where T : class
-    {
-        int NewCompare(T? a, T? b) => compare(a);
-        return list!.BinarySearch(null, NewCompare);
-    }
-
-    public static T? BinarySearchOrDefault<T>(this List<T?> list, T? item, Func<T?, T?, int> compare)
-    {
-        var i = list.BinarySearch(item, compare);
-        return i >= 0 ? list[i] : default(T);
-    }
-
-    public static T? BinarySearchOrDefault<T>(this List<T?> list, Func<T, int> compare) where T : class
-    {
-        int NewCompare(T? a, T? b) => compare(a);
-        var index = list!.BinarySearch(null, NewCompare);
-        return index >= 0 ? list[index] : default;
-    }
-
-    public static List<int> BinarySearchMultiple<T>(this List<T> list, T item, Func<T, T, int> compare)
-    {
-        var results = new List<int>();
-        var i = list.BinarySearch(item, compare);
-        if (i < 0) return results;
-        results.Add(i);
-        var below = i;
-        while (--below >= 0)
-        {
-            var belowIndex = compare(list[below], item);
-            if (belowIndex < 0)
-                break;
-            results.Add(below);
-        }
-
-        var above = i;
-        while (++above < list.Count)
-        {
-            var aboveIndex = compare(list[above], item);
-            if (aboveIndex > 0)
-                break;
-            results.Add(above);
-        }
-        return results;
-    }
-
-    public static List<T> BinarySearchMultipleItemList<T>(this List<T> list, T item, Func<T, T, int> compare)
-    {
-        var ids = list.BinarySearchMultiple(item, compare);
-
-        return ids.Select(id => list[id]).ToList();
-    }
-
     public static void Foreach<T>(this List<T> items, Action<T> action)
     {
         foreach (var item in items)
@@ -202,9 +145,7 @@ public static class ListExtensions
             .OrderBy(e=>e.Order)
             .ToList();
 
-        var parents = result.ToList();
-
-        foreach (var parent in parents)
+        foreach (var parent in result)
         {
             var index = result.FindIndex(e => e.Id == parent.Id);
             var item = result[index];
@@ -215,25 +156,5 @@ public static class ListExtensions
         }
 
         return result.ToList();
-    }
-}
-
-
-public class ComparisonComparer<T> : IComparer<T>
-{
-    private readonly Comparison<T> _comparison;
-
-    public ComparisonComparer(Func<T, T, int> compare)
-    {
-        if (compare == null)
-        {
-            throw new ArgumentNullException(nameof(compare));
-        }
-        _comparison = new Comparison<T>(compare);
-    }
-
-    public int Compare(T x, T y)
-    {
-        return _comparison(x, y);
     }
 }

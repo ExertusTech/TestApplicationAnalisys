@@ -31,7 +31,9 @@ public abstract class Entity:IEntity
         return Id == other.Id;
     }
 
+#pragma warning disable S3875 // "operator==" should not be overloaded on reference types
     public static bool operator ==(Entity? a, Entity? b)
+#pragma warning restore S3875 // "operator==" should not be overloaded on reference types
     {
         if (a is null && b is null)
             return true;

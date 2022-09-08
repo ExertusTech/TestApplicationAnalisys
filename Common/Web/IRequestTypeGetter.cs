@@ -1,7 +1,6 @@
-﻿namespace Common.Web
+﻿namespace Common.Web;
+
+public interface IRequestTypeGetter
 {
-    public interface IRequestTypeGetter
-    {
-        string GetRequestType();
-    }
+    string GetRequestType();
 }

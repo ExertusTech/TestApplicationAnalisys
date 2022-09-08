@@ -24,14 +24,12 @@ public static class StringExtensions
 
     public static string RemoveDiacritics(this String s)
     {
-        String normalizedString = s.Normalize(NormalizationForm.FormD);
-        StringBuilder stringBuilder = new StringBuilder();
+        var normalizedString = s.Normalize(NormalizationForm.FormD);
+        var stringBuilder = new StringBuilder();
 
-        for (int i = 0; i < normalizedString.Length; i++)
+        foreach (var c in normalizedString.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark))
         {
-            Char c = normalizedString[i];
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                stringBuilder.Append(c);
+            stringBuilder.Append(c);
         }
 
         return stringBuilder.ToString();
@@ -46,11 +44,10 @@ public static class StringExtensions
         }
         var xmlSerializer = new XmlSerializer(typeof(T));
         var stringWriter = new StringWriter();
-        using (var writer = XmlWriter.Create(stringWriter))
-        {
-            xmlSerializer.Serialize(writer, value);
-            return stringWriter.ToString();
-        }
+        
+        using var writer = XmlWriter.Create(stringWriter);
+        xmlSerializer.Serialize(writer, value);
+        return stringWriter.ToString();
     }
 
     public static string GetQueryString(this object obj) {
@@ -134,7 +131,7 @@ public static class StringExtensions
         return value.IndexOf(searchText, StringComparison.CurrentCultureIgnoreCase) >= 0;
     }
 
-    public static bool EqualIgnoreCase(this string value, string compare)
+    public static bool EqualIgnoreCase(this string? value, string? compare)
     {
         if (value == null || compare == null)
         {
@@ -180,7 +177,7 @@ public static class StringExtensions
         var type = enumerationValue.GetType();
         if (!type.IsEnum)
         {
-            throw new ArgumentException("EnumerationValue must be of Enum type", "enumerationValue");
+            throw new ArgumentException("EnumerationValue must be of Enum type", nameof(enumerationValue));
         }
 
         //Tries to find a DescriptionAttribute for a potential friendly name

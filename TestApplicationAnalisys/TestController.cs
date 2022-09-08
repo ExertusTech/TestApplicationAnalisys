@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using Common;
+using Dapper;
 using DRP.Infra.DataAccess.Core;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,8 +24,8 @@ namespace TestApplicationAnalisys
         [Route("bd/{query}")]
         public IActionResult Get(string query)
         {
-            var servicio = new ConnectionService(_config);
-            var result = servicio.Sql.Query($"select * from test where otro = '{query}'");
+            var servicio = new Otro();
+            var result = servicio.Prueba($"select * from test where otro = '{query}'", _config);
             return Ok(result);
         }
 

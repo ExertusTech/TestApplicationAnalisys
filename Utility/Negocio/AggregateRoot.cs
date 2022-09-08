@@ -3,7 +3,7 @@
     public abstract class AggregateRoot : Entity, IAuditable
     {
 
-        public AggregateRoot()
+        protected AggregateRoot()
         {
 
         }

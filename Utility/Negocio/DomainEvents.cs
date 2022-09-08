@@ -6,28 +6,23 @@ namespace Utility.Negocio
 {
     public static class DomainEvents
     {
-        private static List<Type> _handlers;
-        private static IServiceProvider _serviceProvider;
-        private static IHttpContextAccessor _httpContextAccessor;
+        private static List<Type>? _handlers;
+        private static IServiceProvider? _serviceProvider;
+        private static IHttpContextAccessor? _httpContextAccessor;
 
-        private static IHttpContextAccessor HttpContextAccessor
+        private static IHttpContextAccessor? HttpContextAccessor
         {
             get
             {
-                if (_httpContextAccessor == null)
-                {
-                    _httpContextAccessor = _serviceProvider.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
-                }
-                return _httpContextAccessor;
+                return _httpContextAccessor ??= _serviceProvider?.GetService(typeof(IHttpContextAccessor)) as IHttpContextAccessor;
             }
         }
 
-        public static void Init(IServiceProvider serviceProvider, Assembly assembly)
+        public static void Init(IServiceProvider? serviceProvider, Assembly assembly)
         {
             _serviceProvider = serviceProvider;
 
-            _handlers = assembly == null ? new List<Type>() :
-                assembly
+            _handlers = assembly
                 .GetTypes()
                 .Where(x => x.IsInterface &&  x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IHandler<>)))
                 .ToList();
@@ -35,6 +30,7 @@ namespace Utility.Negocio
 
         public static void Dispatch(IDomainEvent domainEvent)
         {
+            if (_handlers == null) return;
 
             foreach (var handlerType in _handlers)
             {
@@ -45,16 +41,15 @@ namespace Utility.Negocio
 
                 if (!canHandleEvent) continue;
 
-                dynamic handler = HttpContextAccessor.HttpContext.RequestServices.GetService(handlerType);
+                dynamic handler = HttpContextAccessor?.HttpContext.RequestServices.GetService(handlerType);
 
                 if (handler == null)
                 {
-                    handler = Activator.CreateInstance(handlerType);
+                    handler = Activator.CreateInstance(handlerType) ?? ;
                 }
 
-                handler.Handle((dynamic) domainEvent);
+                handler.Handle((dynamic)domainEvent);
             }
-
         }
 
         public static void Raise<T>(T args) where T : IDomainEvent

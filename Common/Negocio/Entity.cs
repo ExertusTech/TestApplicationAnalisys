@@ -1,6 +1,6 @@
 ﻿using NHibernate.Proxy;
 
-namespace Utility.Negocio;
+namespace Common.Negocio;
 
 public abstract class Entity:IEntity
 {

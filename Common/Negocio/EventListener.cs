@@ -1,6 +1,6 @@
 ﻿using NHibernate.Event;
 
-namespace Utility.Negocio;
+namespace Common.Negocio;
 
 public class EventListener : 
     IPostInsertEventListener, 

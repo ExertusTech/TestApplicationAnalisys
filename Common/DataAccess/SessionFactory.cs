@@ -11,12 +11,9 @@ namespace Common.DataAccess
 {
     public class SessionFactory
     {
-        private static readonly List<string> AssignedEntities = new List<string>
-        {
-        };
-
         private readonly ISessionFactory _factory;
         public bool Connected { get; }
+
         public SessionFactory(string connectionString)
         {
             try
@@ -39,29 +36,26 @@ namespace Common.DataAccess
 
         private static ISessionFactory BuildSessionFactory(string connectionString)
         {
-
             var configuration = Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2012.ConnectionString(connectionString))
                 .Mappings(m => m.FluentMappings
-                        .AddFromAssembly(Assembly.GetExecutingAssembly())
-                        .Conventions.Add(
-                            ForeignKey.EndsWith("Id"),
-                            ConventionBuilder.Property
-                                .When(criteria => criteria.Expect(x => x.Nullable, Is.Not.Set), x => x.Not.Nullable()))
-                        .Conventions.Add<TableNameConvention>()
-                        .Conventions.Add<CustomConvention>()
+                    .AddFromAssembly(Assembly.GetExecutingAssembly())
+                    .Conventions.Add(
+                        ForeignKey.EndsWith("Id"),
+                        ConventionBuilder.Property
+                            .When(criteria => criteria.Expect(x => x.Nullable, Is.Not.Set), x => x.Not.Nullable()))
+                    .Conventions.Add<TableNameConvention>()
+                    .Conventions.Add<CustomConvention>()
                 )
-                .Cache(c => c.ProviderClass(typeof(NHibernate.Caches.CoreMemoryCache.CoreMemoryCacheProvider).AssemblyQualifiedName)
+                .Cache(c => c
+                    .ProviderClass(typeof(NHibernate.Caches.CoreMemoryCache.CoreMemoryCacheProvider)
+                        .AssemblyQualifiedName)
                     .UseSecondLevelCache()
                     .UseQueryCache()
                 )
-                .ExposeConfiguration(x =>
-                {
-                    x.Cache(e => e.DefaultExpiration = 1800);
-                });
+                .ExposeConfiguration(x => { x.Cache(e => e.DefaultExpiration = 1800); });
 
             return configuration.BuildSessionFactory();
-
         }
 
         public class TableNameConvention : IClassConvention
@@ -76,15 +70,7 @@ namespace Common.DataAccess
         {
             public void Apply(IIdentityInstance instance)
             {
-
-                if (AssignedEntities.Contains(instance.EntityType.Name))
-                {
-                    instance.GeneratedBy.Assigned();
-                }
-                else
-                {
-                    instance.GeneratedBy.Increment();
-                }
+                instance.GeneratedBy.Increment();
             }
         }
     }

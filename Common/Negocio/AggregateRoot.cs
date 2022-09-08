@@ -1,4 +1,4 @@
-﻿namespace Utility.Negocio;
+﻿namespace Common.Negocio;
 
 public abstract class AggregateRoot : Entity, IAuditable
 {

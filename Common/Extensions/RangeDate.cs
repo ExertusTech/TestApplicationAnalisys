@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace Utility.Extensions;
+namespace Common.Extensions;
 
 public class RangeDate : ValueObject
 {

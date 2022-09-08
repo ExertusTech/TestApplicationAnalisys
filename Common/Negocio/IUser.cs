@@ -1,5 +1,5 @@
 ﻿
-namespace Common.DataAccess;
+namespace Common.Negocio;
 
 public interface IUser
 {

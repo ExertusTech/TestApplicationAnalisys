@@ -6,7 +6,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Utility.Extensions;
+namespace Common.Extensions;
 
 public static class StringExtensions
 {

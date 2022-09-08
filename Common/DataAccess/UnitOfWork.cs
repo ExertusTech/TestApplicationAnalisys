@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using System.Linq.Expressions;
+using Common.Negocio;
 using Common.Web;
 using NHibernate;
-using Utility.Negocio;
 
 namespace Common.DataAccess;
 
@@ -23,7 +23,7 @@ public sealed class UnitOfWork : IDisposable
         this.StartSession();
     }
 
-    public T Get<T>(int id) where T : class
+    public T? Get<T>(int id) where T : class
     {
         return _session.Get<T>(id);
     }

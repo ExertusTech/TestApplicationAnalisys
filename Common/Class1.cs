@@ -1,4 +1,4 @@
-﻿namespace Utility;
+﻿namespace Common;
 
 public class Class1
 {

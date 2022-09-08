@@ -15,4 +15,9 @@
     <PackageReference Include="NHibernate.Caches.CoreMemoryCache" Version="5.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Json\" />
+    <Folder Include="Utility\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Utility.Negocio;
+using Common.Negocio;
 
-namespace Utility.Extensions;
+namespace Common.Extensions;
 
 public static class ListExtensions
 {

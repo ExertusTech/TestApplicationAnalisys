@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Utility.Negocio;
+namespace Common.Negocio;
 
 public static class DomainEvents
 {

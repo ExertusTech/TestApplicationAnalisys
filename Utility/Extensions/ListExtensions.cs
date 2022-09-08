@@ -158,41 +158,6 @@ public static class ListExtensions
         }
     }
 
-    public static void CopyListFrom2<T>(this IList<T> to, IEnumerable<T> source, bool deleteIfNotExists = true) where T : IEntity
-    {
-        var mapper = new Mapper(new MapperConfiguration(
-                e => e.CreateMap<T, T>()
-                    .ForMember(p => p.Id, opt => opt.Ignore())
-            )
-        );
-
-        if (deleteIfNotExists)
-        {
-            var deleted = to.Where(e => source.All(c => c.Id != e.Id)).ToList();
-
-            foreach (var noExiste in deleted)
-            {
-                to.Remove(noExiste);
-            }
-        }
-
-        foreach (var itemSource in source)
-        {
-            var destination = to.FirstOrDefault(e => e.Id == itemSource.Id && itemSource.Id != 0);
-            if (destination != null)
-            {
-                mapper.Map(itemSource, destination);
-            }
-            else
-            {
-                to.Add(itemSource);
-            }
-                
-        }
-    }
-
-    
-
     public static T Copy<T>(this T from) where T : IEntity, new()
     {
         var mapper = new Mapper(new MapperConfiguration(

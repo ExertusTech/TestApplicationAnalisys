@@ -14,7 +14,7 @@
             Id = id;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (!(obj is Entity other))
                 return false;
@@ -31,7 +31,7 @@
             return Id == other.Id;
         }
 
-        public static bool operator ==(Entity a, Entity b)
+        public static bool operator ==(Entity? a, Entity? b)
         {
             if (a is null && b is null)
                 return true;

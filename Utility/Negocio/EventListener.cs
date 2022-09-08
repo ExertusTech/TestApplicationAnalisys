@@ -53,7 +53,7 @@ namespace Utility.Negocio
             DispatchEvents(@event.AffectedOwnerOrNull as AggregateRoot);
         }
 
-        private void DispatchEvents(AggregateRoot aggregateRoot)
+        private void DispatchEvents(AggregateRoot? aggregateRoot)
         {
             if (aggregateRoot == null)
                 return;

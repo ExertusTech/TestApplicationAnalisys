@@ -5,8 +5,6 @@ namespace Utility.Extensions
 {
     public static class ListExtensions
     {
-        private const int MaxLevel = 20;
-
         public static int BinarySearch<T>(this List<T> list, T item, Func<T, T, int> compare)
         {
             return list.BinarySearch(item, new ComparisonComparer<T>(compare));
@@ -14,21 +12,21 @@ namespace Utility.Extensions
 
         public static int BinarySearch<T>(this List<T> list, Func<T, int> compare) where T : class
         {
-            int NewCompare(T a, T b) => compare(a);
-            return list.BinarySearch((T)null, (Func<T, T, int>)NewCompare);
+            int NewCompare(T? a, T? b) => compare(a);
+            return list!.BinarySearch(null, NewCompare);
         }
 
-        public static T BinarySearchOrDefault<T>(this List<T> list, T item, Func<T, T, int> compare)
+        public static T? BinarySearchOrDefault<T>(this List<T?> list, T? item, Func<T?, T?, int> compare)
         {
             var i = list.BinarySearch(item, compare);
             return i >= 0 ? list[i] : default(T);
         }
 
-        public static T BinarySearchOrDefault<T>(this List<T> list, Func<T, int> compare) where T : class
+        public static T? BinarySearchOrDefault<T>(this List<T?> list, Func<T, int> compare) where T : class
         {
-            int NewCompare(T a, T b) => compare(a);
-            var index = list.BinarySearch((T)null, (Func<T, T, int>)NewCompare);
-            return index >= 0 ? list[index] : default(T);
+            int NewCompare(T? a, T? b) => compare(a);
+            var index = list!.BinarySearch(null, NewCompare);
+            return index >= 0 ? list[index] : default;
         }
 
         public static List<int> BinarySearchMultiple<T>(this List<T> list, T item, Func<T, T, int> compare)

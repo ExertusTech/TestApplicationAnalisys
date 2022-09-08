@@ -1,45 +1,44 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Utility.Negocio
+namespace Utility.Negocio;
+
+public static class DomainEvents
 {
-    public static class DomainEvents
+    private static List<Type>? _handlers;
+    private static IServiceProvider? _serviceProvider;
+
+    public static void Init(IServiceProvider? serviceProvider, Assembly? assembly = null)
     {
-        private static List<Type>? _handlers;
-        private static IServiceProvider? _serviceProvider;
+        _serviceProvider = serviceProvider;
 
-        public static void Init(IServiceProvider? serviceProvider, Assembly? assembly = null)
+        _handlers = (assembly ?? Assembly.GetExecutingAssembly())
+            .GetTypes() 
+            .Where(x => x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IHandler<>)))
+            .ToList();
+    }
+
+    public static void Dispatch(IDomainEvent domainEvent)
+    {
+        if (_handlers == null) return;
+
+        foreach (var handlerType in _handlers)
         {
-            _serviceProvider = serviceProvider;
+            var canHandleEvent = handlerType.GetInterfaces()
+                .Any(x => x.IsGenericType
+                          && x.GetGenericTypeDefinition() == typeof(IHandler<>)
+                          && x.GenericTypeArguments[0] == domainEvent.GetType());
 
-            _handlers = (assembly ?? Assembly.GetExecutingAssembly())
-                .GetTypes() 
-                .Where(x => x.GetInterfaces().Any(y => y.IsGenericType && y.GetGenericTypeDefinition() == typeof(IHandler<>)))
-                .ToList();
-        }
+            if (!canHandleEvent) continue;
 
-        public static void Dispatch(IDomainEvent domainEvent)
-        {
-            if (_handlers == null) return;
+            dynamic handler = _serviceProvider?.GetRequiredService(handlerType)!;
 
-            foreach (var handlerType in _handlers)
+            if (handler == null)
             {
-                var canHandleEvent = handlerType.GetInterfaces()
-                    .Any(x => x.IsGenericType
-                              && x.GetGenericTypeDefinition() == typeof(IHandler<>)
-                              && x.GenericTypeArguments[0] == domainEvent.GetType());
-
-                if (!canHandleEvent) continue;
-
-                dynamic handler = _serviceProvider?.GetRequiredService(handlerType)!;
-
-                if (handler == null)
-                {
-                    return;
-                }
-
-                handler.Handle((dynamic)domainEvent);
+                return;
             }
+
+            handler.Handle((dynamic)domainEvent);
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿namespace Common.Utility.Extensions
+﻿namespace Utility.Extensions;
+
+public interface ITree
 {
-    public interface ITree
-    {
-        int Id { get; }
+    int Id { get; }
 
-        int ParentId { get; }
-        int Order { get; }
-        int Level { get; set; }
+    int ParentId { get; }
+    int Order { get; }
+    int Level { get; set; }
 
-        bool IsLeaf { get; set; }
-    }
+    bool IsLeaf { get; set; }
 }

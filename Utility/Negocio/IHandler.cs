@@ -1,8 +1,7 @@
-﻿namespace Utility.Negocio
+﻿namespace Utility.Negocio;
+
+public interface IHandler<T>
+    where T : IDomainEvent
 {
-    public interface IHandler<T>
-        where T : IDomainEvent
-    {
-        void Handle(T domainEvent);
-    }
+    void Handle(T domainEvent);
 }

@@ -1,17 +1,12 @@
-﻿namespace Utility.Negocio
+﻿namespace Utility.Negocio;
+
+public interface IEntity
 {
-    public interface IEntity
-    {
-        int Id { get;  }
-    }
+    int Id { get;  }
+}
 
-    public interface ICustomCopyable<in T> : IEntity
-    {
-        void CustomCopy(T entity);
-    }
 
-    public interface IEquivalentComparer<in T> : IEntity
-    {
-        bool IsEquivalentTo(T compare);
-    }
+public interface IEquivalentComparer<in T> : IEntity
+{
+    bool IsEquivalentTo(T compare);
 }

@@ -1,7 +1,6 @@
-﻿namespace Utility
-{
-    public class Class1
-    {
+﻿namespace Utility;
 
-    }
+public class Class1
+{
+
 }

@@ -1,6 +1,5 @@
-﻿namespace Utility.Negocio
+﻿namespace Utility.Negocio;
+
+public interface IDomainEvent
 {
-    public interface IDomainEvent
-    {
-    }
 }

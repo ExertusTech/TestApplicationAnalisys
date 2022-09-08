@@ -28,12 +28,6 @@
         {
             _domainEvents.Clear();
         }
-
-        public virtual void Raise(IDomainEvent newEvent)
-        {
-            Negocio.DomainEvents.Raise(newEvent);
-            _domainEvents.Add(newEvent);
-        }
     }
 
     public interface IAuditable

@@ -14,9 +14,9 @@ public class EventListener :
         return Task.CompletedTask;
     }
 
-    public void OnPostUpdate(PostUpdateEvent ev)
+    public void OnPostUpdate(PostUpdateEvent @event)
     {
-        DispatchEvents(ev.Entity as AggregateRoot);
+        DispatchEvents(@event.Entity as AggregateRoot);
     }
 
     public Task OnPostDeleteAsync(PostDeleteEvent @event, CancellationToken cancellationToken)

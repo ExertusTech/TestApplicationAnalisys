@@ -1,4 +1,6 @@
-﻿namespace Utility.Negocio;
+﻿using NHibernate.Proxy;
+
+namespace Utility.Negocio;
 
 public abstract class Entity:IEntity
 {
@@ -31,7 +33,7 @@ public abstract class Entity:IEntity
         return Id == other.Id;
     }
 
-#pragma warning disable S3875 // "operator==" should not be overloaded on reference types
+#pragma warning disable S3875 // "operator==" Solo en esta entidad ya que tomaremos en 
     public static bool operator ==(Entity? a, Entity? b)
 #pragma warning restore S3875 // "operator==" should not be overloaded on reference types
     {
@@ -56,13 +58,6 @@ public abstract class Entity:IEntity
 
     private Type GetRealType()
     {
-        Type type = GetType();
-
-        var name = type.ToString();
-
-        if (name.Contains("Castle.Proxies.") || name.EndsWith("Proxy"))
-            return type.BaseType;
-
-        return type;
+        return NHibernateProxyHelper.GetClassWithoutInitializingProxy(this);
     }
 }

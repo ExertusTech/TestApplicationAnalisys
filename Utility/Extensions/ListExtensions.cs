@@ -145,12 +145,12 @@ public static class ListExtensions
             .OrderBy(e=>e.Order)
             .ToList();
 
-        foreach (var parent in result)
+        foreach (var itemId in result.Select(e=>e.Id))
         {
-            var index = result.FindIndex(e => e.Id == parent.Id);
+            var index = result.FindIndex(e => e.Id == itemId);
             var item = result[index];
             item.Level = level;
-            var children = list.ToAdjacentTree(parent.Id, level + 1);
+            var children = list.ToAdjacentTree(itemId, level + 1);
             item.IsLeaf = children.Count == 0;
             result.AddRangeAt(index + 1,children);
         }
